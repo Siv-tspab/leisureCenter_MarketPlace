@@ -6,26 +6,49 @@
         class="input search"
         placeholder="Rechercher une base loisirs"
         type="text"
+        v-model="searchText"
       />
-      <select class="input select" name="" id="">
+      <select class="input select" name="" id="" @change="setCategory($event)">
         <option defaultValue disabled value="0">Filtrer par catégorie</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
+        <option value="0">Toutes les catégories</option>
+        <option
+          v-bind:key="category.id"
+          v-for="category in categories"
+          class="grid-item"
+          :value="category.id"
+        >
+          {{ category.name }}
+        </option>
       </select>
     </section>
     <main class="masonry-grid">
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
-      <div class="grid-item"></div>
+      <div v-bind:key="center.id" v-for="center in centers" class="grid-item">
+        {{ center.name }}
+      </div>
     </main>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Home"
+  name: "Home",
+  computed: {
+    centers() {
+      return this.$store.getters.getCurrentCenters;
+    },
+    categories() {
+      return this.$store.getters.getCategories;
+    },
+    category() {
+      return this.$store.getters.getCurrentCategory;
+    },
+  },
+  methods: {
+    setCategory(e) {
+      this.$store.dispatch("setCurrentCategory", parseInt(e.target.value));
+      this.$store.dispatch("setCurrentCenters", parseInt(e.target.value));
+    },
+  },
 };
 </script>
 
