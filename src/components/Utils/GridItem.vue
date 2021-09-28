@@ -29,6 +29,7 @@ export default {
 .grid-item {
   float: left;
   height: fit-content;
+  min-width: 200px;
 }
 .item-content {
   border: 2px solid var(--color-gray-light);

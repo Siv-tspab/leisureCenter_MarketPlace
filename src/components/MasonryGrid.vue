@@ -14,7 +14,6 @@
 </template>
 
 <script>
-
 import Masonry from "masonry-layout";
 import GridItem from "./Utils/GridItem.vue";
 
@@ -23,13 +22,15 @@ export default {
   components: {
     GridItem,
   },
+  data() {
+    return {
+      grid: Object,
+    };
+  },
   computed: {
     centers() {
       return this.buildColumns(this.$store.getters.getCurrentCenters);
     },
-  },
-  mounted() {
-    this.createGrid();
   },
   methods: {
     buildColumns(array) {
@@ -45,11 +46,9 @@ export default {
       return result;
     },
     createGrid() {
-      new Masonry(this.$refs.grid, {
+      this.grid = new Masonry(this.$refs.grid, {
         itemSelector: ".grid-item",
         columnWidth: ".grid-sizer",
-        horizontalOrder: true,
-        gutter: 15,
       });
     },
   },
