@@ -17,6 +17,9 @@ export default {
     centers() {
       return this.$store.getters.getCurrentCenters;
     },
+    markers() {
+      return this.$store.getters.getCurrentMarkers;
+    }
   },
   mounted() {
     mapboxgl.accessToken = this.accessToken;
@@ -26,6 +29,28 @@ export default {
       center: [1.75, 47],
       zoom: 5,
     });
+    this.generateMarkers(this.centers);
+  },
+  methods: {
+    generateMarkers(centers) {
+      let result = [];
+      centers.forEach((center) => {
+        const marker = new mapboxgl.Marker().setLngLat(
+          center.additionnalInfos.coordinates
+        );
+        marker.addTo(this.map);
+        result.push(marker);
+      });
+      this.$store.dispatch("setCurrentMarkers", result)
+    },
+  },
+  watch: {
+    centers(newValue) {
+      for (let i = this.markers.length - 1; i >= 0; i--) {
+        this.markers[i].remove();
+      }
+      this.generateMarkers(newValue);
+    },
   },
 };
 </script>
