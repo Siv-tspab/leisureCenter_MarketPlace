@@ -1,8 +1,6 @@
-/* eslint-disable prettier/prettier */
-
 class Api {
     httpOptions;
-    _entryPoint = "http://localhost:8000/api/";
+    _entryPoint = process.env.VUE_APP_API_ENDPOINT;
 
     constructor() {
         this.httpOptions = {
